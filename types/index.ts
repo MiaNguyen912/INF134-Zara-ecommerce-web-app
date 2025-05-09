@@ -21,7 +21,8 @@ export type Product = {
   images: string[];
   description: string;
   categoryId: string;
-  color: string;
+  subCategoryId: string[];
+  color: string[];
   sizes: string[];
   onSale?: boolean;
   discount?: number;
