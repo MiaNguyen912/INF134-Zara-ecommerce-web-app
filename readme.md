@@ -1,3 +1,10 @@
+## how to run this project
+
+- `npm i`
+- `npm run dev`
+
+## other notes
+
 - @/app/(shop): group folder, not regular route (@/app/(shop)/cart will be accessed via http://localhost:3000/cart, not http://localhost:3000/shop/cart)
 
   - this helps organize routes without affecting the URL path.
