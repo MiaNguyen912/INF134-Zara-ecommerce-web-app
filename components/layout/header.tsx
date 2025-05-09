@@ -199,7 +199,7 @@ export function Header() {
 
         {/* Search Bar */}
         <div className={`overflow-hidden transition-all duration-300 ease-in-out ${showSearch ? "h-16 opacity-100 mb-4" : "h-0 opacity-0"}`}>
-          <div className="py-4 flex items-center">
+          <div className="py-4 flex items-center w-[30%] mx-auto">
             <Search className="h-5 w-5 mr-2 text-gray-400" />
             <Input placeholder="Search products..." className="border-0 focus-visible:ring-0 bg-transparent text-sm" autoFocus={showSearch} />
             <Button variant="ghost" size="sm" onClick={() => setShowSearch(false)}>
