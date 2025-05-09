@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { categories, subcategories } from "@/data/categories";
-import { useCart } from "@/hooks/useCart";
 import { useScreenType } from "@/hooks/useScreenType";
 import { useTheme } from "next-themes";
 
@@ -16,8 +15,7 @@ export function Header() {
   const [showSearch, setShowSearch] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [activeCategory, setActiveCategory] = useState("");
-  const { getItemCount } = useCart();
-  const itemCount = getItemCount();
+  const itemCount = 0;
   const [isMobile, isTablet, isDesktop] = useScreenType();
   const { theme, setTheme, systemTheme } = useTheme();
   const [isMounted, setIsMounted] = useState(false);
