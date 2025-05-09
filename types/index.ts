@@ -1,6 +1,6 @@
 // Common types for the application
 
-export type Language = 'English' | 'Spanish' | 'French' | 'German' | 'Italian' | 'Chinese';
+export type Language = "English" | "Spanish" | "French" | "German" | "Italian" | "Chinese";
 
 export type UserPreferences = {
   language: Language;
@@ -23,7 +23,6 @@ export type Product = {
   categoryId: string;
   color: string;
   sizes: string[];
-  isNew?: boolean;
   onSale?: boolean;
   discount?: number;
 };
@@ -32,6 +31,7 @@ export type CartItem = {
   product: Product;
   quantity: number;
   size: string;
+  color: string;
 };
 
 export type CartState = {
