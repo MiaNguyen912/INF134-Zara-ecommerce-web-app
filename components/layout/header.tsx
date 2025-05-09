@@ -102,49 +102,6 @@ export function Header() {
               <Button variant="ghost" size="icon" onClick={() => setShowMenu(!showMenu)} className="relative border-none hover:bg-transparent hover:font-bold">
                 <Menu className="h-5 w-5" />
               </Button>
-
-              {/* <div className="flex items-center space-x-4">
-                <Sheet>
-                  <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon" className="md:hidden" aria-label="Menu">
-                      <Menu className="h-5 w-5" />
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent side="right" className="p-0 w-full sm:max-w-sm">
-                    <div className="h-full flex flex-col">
-                      <div className="p-4 border-b flex justify-end">
-                        <SheetTrigger asChild>
-                          <Button variant="ghost" size="icon" aria-label="Close menu">
-                            <X className="h-5 w-5" />
-                          </Button>
-                        </SheetTrigger>
-                      </div>
-                      <div className="flex flex-col flex-1 overflow-auto">
-                        {categories.map((category) => (
-                          <div key={category.id}>
-                            <button
-                              className={cn("w-full text-left p-4 border-b text-sm font-medium flex justify-between items-center", activeCategory === category.id ? "bg-gray-50" : "")}
-                              onClick={() => setActiveCategory(activeCategory === category.id ? "" : category.id)}>
-                              {category.name}
-                              <span>{activeCategory === category.id ? "−" : "+"}</span>
-                            </button>
-                            {activeCategory === category.id && subcategories[category.slug as keyof typeof subcategories] && (
-                              <div className="pl-8 bg-gray-50">
-                                {subcategories[category.slug as keyof typeof subcategories].map((subcategory) => (
-                                  <Link key={subcategory.id} href={`/catalog/${category.slug}/${subcategory.slug}`} className="block p-3 text-sm border-b border-gray-100">
-                                    {subcategory.name}
-                                  </Link>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </SheetContent>
-                </Sheet>
-              </div> 
-              */}
             </div>
           </div>
         )}
