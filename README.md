@@ -1,0 +1,3 @@
+- @/app/(shop): group folder, not regular route (@/app/(shop)/cart will be accessed via http://localhost:3000/cart, not http://localhost:3000/shop/cart)
+  - this helps organize routes without affecting the URL path.
+  - allows to apply different layout to different groups
