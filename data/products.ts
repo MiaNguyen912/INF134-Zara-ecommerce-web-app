@@ -1,56 +1,12 @@
 import { Product } from "@/types";
 
-// Helper function to generate random date within last 2 years
-const getRandomDate = () => {
-  const now = new Date();
-  const twoYearsAgo = new Date(now.getFullYear() - 2, now.getMonth(), now.getDate());
-  return new Date(twoYearsAgo.getTime() + Math.random() * (now.getTime() - twoYearsAgo.getTime()));
-};
-
-// Helper function to generate random review
-const generateReview = (product: Product) => {
-  const reviewImages = [
-    "https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg",
-    "https://images.pexels.com/photos/6311601/pexels-photo-6311601.jpeg",
-    "https://images.pexels.com/photos/4210863/pexels-photo-4210863.jpeg",
-    "https://images.pexels.com/photos/4210866/pexels-photo-4210866.jpeg",
-  ];
-
-  const reviewTexts = [
-    "Great quality and perfect fit!",
-    "Exactly as described, very satisfied.",
-    "Good product but shipping took longer than expected.",
-    "The material is amazing, worth every penny.",
-    "Not bad, but could be better.",
-    "Excellent purchase, highly recommend!",
-    "The color is slightly different from the picture.",
-    "Very comfortable and stylish.",
-  ];
-
-  const usernames = ["FashionLover123", "StyleGuru", "Shopaholic2023", "TrendSetter", "FashionForward", "StyleIcon", "Fashionista", "TrendyShopper"];
-
-  return {
-    rating: Math.floor(Math.random() * 5) + 1,
-    images: Math.random() > 0.5 ? [reviewImages[Math.floor(Math.random() * reviewImages.length)]] : null,
-    text: Math.random() > 0.3 ? reviewTexts[Math.floor(Math.random() * reviewTexts.length)] : null,
-    username: usernames[Math.floor(Math.random() * usernames.length)],
-    date: getRandomDate().toISOString(),
-    sizeBought: Math.random() > 0.4 ? product.sizes[Math.floor(Math.random() * product.sizes.length)] : null,
-    colorBought: Math.random() > 0.4 ? product.color[Math.floor(Math.random() * product.color.length)] : null,
-  };
-};
-
-// Helper function to generate random number of reviews (0-10)
-const generateReviews = (product: Product) => {
-  const numReviews = Math.floor(Math.random() * 11);
-  return Array.from({ length: numReviews }, () => generateReview(product));
-};
-
 export const products: Product[] = [
   {
     id: "1",
     name: "Oversized linen blend shirt",
     price: 35.9,
+    onSale: true,
+    discountPercentage: 20,
     images: [
       "https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "https://images.pexels.com/photos/6311601/pexels-photo-6311601.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
@@ -122,7 +78,7 @@ export const products: Product[] = [
       "https://images.pexels.com/photos/5693895/pexels-photo-5693895.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     ],
     description: "Round neck t-shirt with short sleeves.",
-    categoryId: "2",
+    categoryId: "1",
     subCategoryId: ["w1", "w4"],
     color: ["Black", "White"],
     sizes: ["S", "M", "L", "XL", "XXL"],
@@ -208,7 +164,7 @@ export const products: Product[] = [
     color: ["Beige"],
     sizes: ["ONE SIZE"],
     onSale: true,
-    discount: 20,
+    discountPercentage: 20,
     rating: 4,
     reviews: [
       {
@@ -254,6 +210,8 @@ export const products: Product[] = [
     id: "8",
     name: "Boys denim jacket",
     price: 39.9,
+    onSale: true,
+    discountPercentage: 10,
     images: [
       "https://images.pexels.com/photos/5693891/pexels-photo-5693891.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "https://images.pexels.com/photos/5693892/pexels-photo-5693892.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",

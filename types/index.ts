@@ -25,7 +25,7 @@ export type Product = {
   color: string[];
   sizes: string[];
   onSale?: boolean;
-  discount?: number;
+  discountPercentage?: number;
   rating: number;
   reviews: Review[];
 };
