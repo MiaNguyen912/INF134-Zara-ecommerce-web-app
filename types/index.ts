@@ -26,6 +26,19 @@ export type Product = {
   sizes: string[];
   onSale?: boolean;
   discount?: number;
+  rating: number;
+  reviews: Review[];
+};
+
+export type Review = {
+  id: string;
+  username: string;
+  date: string;
+  rating: number;
+  comment: string;
+  images: string[] | null;
+  sizeBought: string | null;
+  colorBought: string | null;
 };
 
 export type CartItem = {

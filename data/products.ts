@@ -1,5 +1,51 @@
 import { Product } from "@/types";
 
+// Helper function to generate random date within last 2 years
+const getRandomDate = () => {
+  const now = new Date();
+  const twoYearsAgo = new Date(now.getFullYear() - 2, now.getMonth(), now.getDate());
+  return new Date(twoYearsAgo.getTime() + Math.random() * (now.getTime() - twoYearsAgo.getTime()));
+};
+
+// Helper function to generate random review
+const generateReview = (product: Product) => {
+  const reviewImages = [
+    "https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg",
+    "https://images.pexels.com/photos/6311601/pexels-photo-6311601.jpeg",
+    "https://images.pexels.com/photos/4210863/pexels-photo-4210863.jpeg",
+    "https://images.pexels.com/photos/4210866/pexels-photo-4210866.jpeg",
+  ];
+
+  const reviewTexts = [
+    "Great quality and perfect fit!",
+    "Exactly as described, very satisfied.",
+    "Good product but shipping took longer than expected.",
+    "The material is amazing, worth every penny.",
+    "Not bad, but could be better.",
+    "Excellent purchase, highly recommend!",
+    "The color is slightly different from the picture.",
+    "Very comfortable and stylish.",
+  ];
+
+  const usernames = ["FashionLover123", "StyleGuru", "Shopaholic2023", "TrendSetter", "FashionForward", "StyleIcon", "Fashionista", "TrendyShopper"];
+
+  return {
+    rating: Math.floor(Math.random() * 5) + 1,
+    images: Math.random() > 0.5 ? [reviewImages[Math.floor(Math.random() * reviewImages.length)]] : null,
+    text: Math.random() > 0.3 ? reviewTexts[Math.floor(Math.random() * reviewTexts.length)] : null,
+    username: usernames[Math.floor(Math.random() * usernames.length)],
+    date: getRandomDate().toISOString(),
+    sizeBought: Math.random() > 0.4 ? product.sizes[Math.floor(Math.random() * product.sizes.length)] : null,
+    colorBought: Math.random() > 0.4 ? product.color[Math.floor(Math.random() * product.color.length)] : null,
+  };
+};
+
+// Helper function to generate random number of reviews (0-10)
+const generateReviews = (product: Product) => {
+  const numReviews = Math.floor(Math.random() * 11);
+  return Array.from({ length: numReviews }, () => generateReview(product));
+};
+
 export const products: Product[] = [
   {
     id: "1",
@@ -16,6 +62,29 @@ export const products: Product[] = [
     subCategoryId: ["w1", "w4"],
     color: ["White", "Black"],
     sizes: ["XS", "S", "M", "L", "XL"],
+    rating: 4.2,
+    reviews: [
+      {
+        id: "1",
+        username: "John Doe",
+        date: "2024-01-01",
+        rating: 4,
+        comment: "Very comfortable and stylish",
+        images: ["https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg", "https://images.pexels.com/photos/6311601/pexels-photo-6311601.jpeg"],
+        sizeBought: "M",
+        colorBought: "White",
+      },
+      {
+        id: "2",
+        username: "Jane Doe",
+        date: "2024-01-02",
+        rating: 5,
+        images: ["https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg", "https://images.pexels.com/photos/6311601/pexels-photo-6311601.jpeg"],
+        comment: "Perfect fit and great quality",
+        sizeBought: "L",
+        colorBought: "Black",
+      },
+    ],
   },
   {
     id: "2",
@@ -30,6 +99,19 @@ export const products: Product[] = [
     subCategoryId: ["w1", "w6"],
     color: ["Blue", "Black"],
     sizes: ["34", "36", "38", "40", "42", "44"],
+    rating: 3,
+    reviews: [
+      {
+        id: "1",
+        username: "John Doe",
+        date: "2024-01-01",
+        rating: 3,
+        comment: "Good quality but a bit tight",
+        images: ["https://images.pexels.com/photos/4210863/pexels-photo-4210863.jpeg", "https://images.pexels.com/photos/4210866/pexels-photo-4210866.jpeg"],
+        sizeBought: "34",
+        colorBought: "Blue",
+      },
+    ],
   },
   {
     id: "3",
@@ -44,6 +126,19 @@ export const products: Product[] = [
     subCategoryId: ["w1", "w4"],
     color: ["Black", "White"],
     sizes: ["S", "M", "L", "XL", "XXL"],
+    rating: 4,
+    reviews: [
+      {
+        id: "1",
+        username: "John Doe",
+        date: "2024-01-01",
+        rating: 4,
+        comment: "Perfect fit and great quality",
+        images: ["https://images.pexels.com/photos/5693896/pexels-photo-5693896.jpeg", "https://images.pexels.com/photos/5693895/pexels-photo-5693895.jpeg"],
+        sizeBought: "M",
+        colorBought: "White",
+      },
+    ],
   },
   {
     id: "4",
@@ -58,6 +153,19 @@ export const products: Product[] = [
     subCategoryId: ["w1", "w7"],
     color: ["Black", "White", "Beige"],
     sizes: ["S", "M", "L", "XL", "XXL"],
+    rating: 4,
+    reviews: [
+      {
+        id: "1",
+        username: "John Doe",
+        date: "2024-01-01",
+        rating: 4,
+        comment: "Perfect fit and great quality",
+        images: ["https://images.pexels.com/photos/6626903/pexels-photo-6626903.jpeg", "https://images.pexels.com/photos/6626967/pexels-photo-6626967.jpeg"],
+        sizeBought: "M",
+        colorBought: "White",
+      },
+    ],
   },
   {
     id: "5",
@@ -72,6 +180,19 @@ export const products: Product[] = [
     subCategoryId: ["m1", "m8"],
     color: ["Black"],
     sizes: ["38", "39", "40", "41", "42", "43", "44"],
+    rating: 4,
+    reviews: [
+      {
+        id: "1",
+        username: "John Doe",
+        date: "2024-01-01",
+        rating: 4,
+        comment: "Perfect fit and great quality",
+        images: ["https://images.pexels.com/photos/6046182/pexels-photo-6046182.jpeg", "https://images.pexels.com/photos/6046188/pexels-photo-6046188.jpeg"],
+        sizeBought: "38",
+        colorBought: "Black",
+      },
+    ],
   },
   {
     id: "6",
@@ -88,6 +209,19 @@ export const products: Product[] = [
     sizes: ["ONE SIZE"],
     onSale: true,
     discount: 20,
+    rating: 4,
+    reviews: [
+      {
+        id: "1",
+        username: "John Doe",
+        date: "2024-01-01",
+        rating: 4,
+        comment: "Perfect fit and great quality",
+        images: ["https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg", "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg"],
+        sizeBought: "ONE SIZE",
+        colorBought: "Beige",
+      },
+    ],
   },
   {
     id: "7",
@@ -102,6 +236,19 @@ export const products: Product[] = [
     subCategoryId: ["k1"],
     color: ["Pink"],
     sizes: ["6-8 YEARS", "8-10 YEARS", "10-12 YEARS", "12-14 YEARS"],
+    rating: 4,
+    reviews: [
+      {
+        id: "1",
+        username: "John Doe",
+        date: "2024-01-01",
+        rating: 4,
+        comment: "Perfect fit and great quality",
+        images: ["https://images.pexels.com/photos/5693876/pexels-photo-5693876.jpeg", "https://images.pexels.com/photos/5693877/pexels-photo-5693877.jpeg"],
+        sizeBought: "6-8 YEARS",
+        colorBought: "Pink",
+      },
+    ],
   },
   {
     id: "8",
@@ -116,5 +263,18 @@ export const products: Product[] = [
     subCategoryId: ["k2"],
     color: ["Blue"],
     sizes: ["6-8 YEARS", "8-10 YEARS", "10-12 YEARS", "12-14 YEARS"],
+    rating: 4,
+    reviews: [
+      {
+        id: "1",
+        username: "John Doe",
+        date: "2024-01-01",
+        rating: 4,
+        comment: "Perfect fit and great quality",
+        images: ["https://images.pexels.com/photos/5693891/pexels-photo-5693891.jpeg", "https://images.pexels.com/photos/5693892/pexels-photo-5693892.jpeg"],
+        sizeBought: "6-8 YEARS",
+        colorBought: "Blue",
+      },
+    ],
   },
 ];
