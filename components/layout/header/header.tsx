@@ -17,7 +17,7 @@ export function Header() {
   const dispatch = useAppDispatch();
   const { getItemCount } = useCart();
   const itemCount = getItemCount();
-  const [isMobile, isTablet, isDesktop] = useScreenType();
+  const [isDesktop, isTablet, isMobile] = useScreenType();
   const { theme, setTheme, systemTheme } = useTheme();
 
   // Get state from Redux

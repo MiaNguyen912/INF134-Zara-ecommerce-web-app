@@ -11,9 +11,9 @@ export function useScreenType() {
     const checkBreakpoints = () => {
       const width = window.innerWidth;
       setBreakpoints({
-        isMobile: width < 640,
-        isTablet: width >= 640 && width <= 768,
-        isDesktop: width > 768,
+        isMobile: width < 768, // Mobile: < 768px
+        isTablet: width >= 768 && width < 1024, // Tablet: 768px - 1023px
+        isDesktop: width >= 1024, // Desktop: >= 1024px
       });
     };
     checkBreakpoints();
@@ -22,5 +22,5 @@ export function useScreenType() {
     return () => window.removeEventListener("resize", checkBreakpoints);
   }, []);
 
-  return [breakpoints.isMobile, breakpoints.isTablet, breakpoints.isDesktop];
+  return [breakpoints.isDesktop, breakpoints.isTablet, breakpoints.isMobile];
 }
