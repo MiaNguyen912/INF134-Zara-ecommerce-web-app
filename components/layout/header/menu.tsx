@@ -7,12 +7,21 @@ import { categories, subcategories } from "@/data/categories";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { setSelectedCategory, setShowMenu } from "@/store/features/appSlice";
 import { useScreenType } from "@/hooks/useScreenType";
+import { Category } from "@/types";
 
 export function Menu() {
   const dispatch = useAppDispatch();
   const selectedCategory = useAppSelector((state) => state.app.selectedCategory);
   const showMenu = useAppSelector((state) => state.app.showMenu);
   const [isDesktop, isTablet, isMobile] = useScreenType();
+
+  const handleCategoryClick = (category: Category) => {
+    if (selectedCategory.name != category.name) {
+      dispatch(setSelectedCategory(category));
+    } else {
+      window.location.href = `/catalog/${category.slug}`;
+    }
+  };
 
   const handleSubcategoryClick = () => {
     dispatch(setShowMenu(false));
@@ -27,7 +36,7 @@ export function Menu() {
             {categories.map((category) => (
               <div key={category.id} className="w-full">
                 <div className={`border-b-2 border-black w-full flex justify-center pb-4 ${category.name === selectedCategory.name ? "border-b-4" : ""} transition-all duration-300 ease-in-out`}>
-                  <Button variant="ghost" onClick={() => dispatch(setSelectedCategory(category))} className="text-sm hover:font-bold hover:bg-transparent">
+                  <Button variant="ghost" onClick={() => handleCategoryClick(category)} className="text-sm hover:font-bold hover:bg-transparent">
                     {category.name}
                   </Button>
                 </div>
@@ -72,7 +81,7 @@ export function Menu() {
                   <Button
                     key={category.id}
                     variant="ghost"
-                    onClick={() => dispatch(setSelectedCategory(category))}
+                    onClick={() => handleCategoryClick(category)}
                     className={`justify-start text-sm hover:font-bold hover:bg-transparent ${category.name === selectedCategory.name ? "font-bold" : ""}`}>
                     {category.name}
                   </Button>
