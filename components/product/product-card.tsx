@@ -17,8 +17,8 @@ export function ProductCard({ product }: ProductCardProps) {
           src={product.images[0]}
           alt={product.name}
           fill
-          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-          sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw"
+          className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+          sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw" // 4, 3, 2 columns respectively on desktop, tablet, mobile
         />
 
         {/* Sale badge */}
