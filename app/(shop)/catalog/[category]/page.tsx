@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { ProductGrid } from "@/components/product/product-grid";
+import { ProductGrid } from "@/components/catalog/product-grid";
 import { categories } from "@/data/categories";
 import { products } from "@/data/products";
 
