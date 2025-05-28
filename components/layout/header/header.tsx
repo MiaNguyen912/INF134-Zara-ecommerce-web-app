@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Search, ShoppingBag, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+// import { useCart } from "@/hooks/useCart";
 import { useScreenType } from "@/hooks/useScreenType";
 import { useTheme } from "next-themes";
 import { useAppDispatch, useAppSelector } from "@/store/store";
@@ -14,6 +15,8 @@ import { Menu as MenuComponent } from "./menu";
 
 export function Header() {
   const dispatch = useAppDispatch();
+  // const { getItemCount } = useCart();
+  // const itemCount = getItemCount();
   const itemCount = 0;
   const [isDesktop, isTablet, isMobile] = useScreenType();
   const { theme, setTheme, systemTheme } = useTheme();

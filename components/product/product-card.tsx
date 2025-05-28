@@ -23,19 +23,26 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Sale badge */}
         {product.onSale && <div className="absolute top-2 right-2 bg-white text-black text-xs px-2 py-1">-{product.discountPercentage}%</div>}
+
+        {/* low stock badge */}
+        {product.stock < 100 && product.stock > 0 && <div className="absolute top-2 left-2 bg-white text-black text-xs px-2 py-1">Low stock</div>}
       </div>
 
       <div className="space-y-1">
         <h3 className="text-sm font-medium truncate">{product.name}</h3>
 
         <div className="flex items-center space-x-2">
-          {salePrice ? (
-            <>
-              <span className="text-sm text-red-500 font-medium">${salePrice}</span>
-              <span className="text-sm text-gray-500 line-through">${product.price.toFixed(2)}</span>
-            </>
+          {product.stock > 0 ? (
+            salePrice ? (
+              <>
+                <span className="text-sm text-red-500 font-medium">${salePrice}</span>
+                <span className="text-sm text-gray-500 line-through">${product.price.toFixed(2)}</span>
+              </>
+            ) : (
+              <span className="text-sm font-medium">${product.price.toFixed(2)}</span>
+            )
           ) : (
-            <span className="text-sm font-medium">${product.price.toFixed(2)}</span>
+            <span className="text-sm text-red-500">Out of stock</span>
           )}
         </div>
       </div>

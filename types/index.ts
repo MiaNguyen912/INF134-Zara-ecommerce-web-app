@@ -26,6 +26,7 @@ export type Product = {
   sizes: string[];
   onSale?: boolean;
   discountPercentage?: number;
+  stock: number;
   rating: number;
   reviews: Review[];
 };

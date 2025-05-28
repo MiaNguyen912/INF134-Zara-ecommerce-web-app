@@ -18,6 +18,7 @@ export const products: Product[] = [
     subCategoryId: ["w1", "w4"],
     color: ["White", "Black"],
     sizes: ["XS", "S", "M", "L", "XL"],
+    stock: 500,
     rating: 4.2,
     reviews: [
       {
@@ -55,6 +56,7 @@ export const products: Product[] = [
     subCategoryId: ["w1", "w6"],
     color: ["Blue", "Black"],
     sizes: ["34", "36", "38", "40", "42", "44"],
+    stock: 50,
     rating: 3,
     reviews: [
       {
@@ -82,6 +84,7 @@ export const products: Product[] = [
     subCategoryId: ["w1", "w4"],
     color: ["Black", "White"],
     sizes: ["S", "M", "L", "XL", "XXL"],
+    stock: 0,
     rating: 4,
     reviews: [
       {
@@ -109,6 +112,7 @@ export const products: Product[] = [
     subCategoryId: ["w1", "w7"],
     color: ["Black", "White", "Beige"],
     sizes: ["S", "M", "L", "XL", "XXL"],
+    stock: 50,
     rating: 4,
     reviews: [
       {
@@ -136,6 +140,7 @@ export const products: Product[] = [
     subCategoryId: ["m1", "m8"],
     color: ["Black"],
     sizes: ["38", "39", "40", "41", "42", "43", "44"],
+    stock: 0,
     rating: 4,
     reviews: [
       {
@@ -165,6 +170,7 @@ export const products: Product[] = [
     sizes: ["ONE SIZE"],
     onSale: true,
     discountPercentage: 20,
+    stock: 500,
     rating: 4,
     reviews: [
       {
@@ -192,6 +198,7 @@ export const products: Product[] = [
     subCategoryId: ["k1"],
     color: ["Pink"],
     sizes: ["6-8 YEARS", "8-10 YEARS", "10-12 YEARS", "12-14 YEARS"],
+    stock: 500,
     rating: 4,
     reviews: [
       {
@@ -221,6 +228,7 @@ export const products: Product[] = [
     subCategoryId: ["k2"],
     color: ["Blue"],
     sizes: ["6-8 YEARS", "8-10 YEARS", "10-12 YEARS", "12-14 YEARS"],
+    stock: 500,
     rating: 4,
     reviews: [
       {
