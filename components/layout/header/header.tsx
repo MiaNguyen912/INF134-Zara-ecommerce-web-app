@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, ShoppingBag, Menu } from "lucide-react";
+import { Search, ShoppingBag, Menu, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/hooks/useCart";
@@ -37,6 +37,14 @@ export function Header() {
         {/* Desktop navigation */}
         {isDesktop ? (
           <div className="h-20 flex items-center justify-between px-20">
+
+            {/* Home */}
+            <Link href="/home">
+              <Button variant="ghost" size="icon" className="relative hover:bg-transparent hover:font-bold text-sm" aria-label="Home">
+                <Home className="h-5 w-5" />
+              </Button>
+            </Link>
+
             {/* Menu */}
             <Button variant="ghost" size="icon" onClick={() => dispatch(setShowMenu(!showMenu))} className="relative border-none hover:bg-transparent hover:font-bold text-sm">
               MENU
