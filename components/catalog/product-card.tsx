@@ -1,5 +1,7 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Product } from "@/types";
 
 interface ProductCardProps {
@@ -7,8 +9,15 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const router = useRouter();
   // Calculate sale price if product is on sale
   const salePrice = product.onSale ? ((product.price * (100 - product.discountPercentage!)) / 100).toFixed(2) : null;
+
+  const handleSizeClick = (e: React.MouseEvent, size: string) => {
+    e.preventDefault(); //Prevents default link nav
+    e.stopPropagation(); //Stops bubbling up to link
+    router.push(`/product/${product.id}?size=${size}`);
+  };
 
   return (
     <Link href={`/product/${product.id}`} className="group">
@@ -31,15 +40,16 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="absolute bottom-0 left-0 right-0 bg-white/90 text-xs text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 py-2">
           <div className="font-semibold mb-1 text-black">ADD SIZE</div>
           <div className="flex justify-center gap-2 text-gray-700">
-            <span className="hover:underline cursor-pointer">XS</span>
-            <span className="hover:underline cursor-pointer">S</span>
-            <span className="hover:underline cursor-pointer">M</span>
-            <span className="hover:underline cursor-pointer">L</span>
-            <span className="hover:underline cursor-pointer">XL</span>
-            <span className="hover:underline cursor-pointer">XXL</span>
+            {["XS", "S", "M", "L", "XL", "XXL"].map((size) => (
+              <span
+                key={size}
+                onClick={(e) => handleSizeClick(e, size)}
+                className={`cursor-pointer ${size === "XS" ? "text-gray-400 pointer-events-none" : ""} hover:underline`}>
+                {size}
+              </span>
+            ))}
           </div>
         </div>
-      
       </div>
 
       <div className="space-y-1">

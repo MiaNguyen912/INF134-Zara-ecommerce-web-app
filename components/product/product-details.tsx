@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
 import { ProductCard } from "@/components/catalog/product-card";
@@ -17,6 +18,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<string>("");
   const { addItem } = useCart();
+  const searchParams = useSearchParams();
 
   // Get similar products (from same category, excluding this product)
   const similarProducts = products.filter((p) => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4);
@@ -31,6 +33,13 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
     addItem(product, selectedSize, selectedColor);
   };
+
+  useEffect(() => {
+    const urlSize = searchParams.get("size");
+    if(urlSize && product.sizes.includes(urlSize)){
+      setSelectedSize(urlSize);
+    }
+  }, [searchParams, product.sizes]);
 
   return (
     <div className="min-h-screen">
