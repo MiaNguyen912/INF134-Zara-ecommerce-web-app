@@ -17,7 +17,7 @@ export function ProductCard({ product }: ProductCardProps) {
           src={product.images[0]}
           alt={product.name}
           fill
-          className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+          className="object-cover w-full h-full hover:scale-105 transition-transform duration-500 group-hover:scale-105"
           sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw" // 4, 3, 2 columns respectively on desktop, tablet, mobile
         />
 
@@ -26,6 +26,20 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* low stock badge */}
         {product.stock < 100 && product.stock > 0 && <div className="absolute top-2 left-2 bg-white text-black text-xs px-2 py-1">Low stock</div>}
+
+        {/* Hover size selector */}
+        <div className="absolute bottom-0 left-0 right-0 bg-white/90 text-xs text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 py-2">
+          <div className="font-semibold mb-1 text-black">ADD SIZE</div>
+          <div className="flex justify-center gap-2 text-gray-700">
+            <span className="hover:underline cursor-pointer">XS</span>
+            <span className="hover:underline cursor-pointer">S</span>
+            <span className="hover:underline cursor-pointer">M</span>
+            <span className="hover:underline cursor-pointer">L</span>
+            <span className="hover:underline cursor-pointer">XL</span>
+            <span className="hover:underline cursor-pointer">XXL</span>
+          </div>
+        </div>
+      
       </div>
 
       <div className="space-y-1">
