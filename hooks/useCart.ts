@@ -14,29 +14,65 @@ export function useCart() {
 
   // Calculate cart total when items change
   useEffect(() => {
-    const newTotal = cart.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+    const newTotal = cart.items.reduce((sum, item) => {
+      const itemPrice = item.product.onSale ? item.product.price * (1 - item.product.discountPercentage! / 100) : item.product.price;
+      return sum + itemPrice * item.quantity;
+    }, 0);
 
-    if (newTotal !== cart.total) {
-      setCart({
-        ...cart,
-        total: Number(newTotal.toFixed(2)),
-      });
+    const roundedTotal = Number(newTotal.toFixed(2));
+
+    if (roundedTotal !== cart.total) {
+      setCart((prevCart) => ({
+        ...prevCart,
+        total: roundedTotal,
+      }));
     }
-  }, [cart, cart.items, setCart]);
+  }, [cart.items, cart.total, setCart]);
 
   // Add item to cart
   const addItem = (product: Product, size: string, color: string, quantity = 1) => {
-    console.log("addItem", product, size, color, quantity);
+    setCart((prevCart) => {
+      const existingItemIndex = prevCart.items.findIndex((item) => item.product.id === product.id && item.size === size && item.color === color);
+
+      if (existingItemIndex > -1) {
+        // Update existing item quantity
+        const updatedItems = [...prevCart.items];
+        updatedItems[existingItemIndex] = {
+          ...updatedItems[existingItemIndex],
+          quantity: updatedItems[existingItemIndex].quantity + quantity,
+        };
+        return { ...prevCart, items: updatedItems };
+      }
+
+      // Add new item
+      return {
+        ...prevCart,
+        items: [...prevCart.items, { product, size, color, quantity }],
+      };
+    });
   };
 
   // Update item quantity
   const updateItemQuantity = (productId: string, size: string, color: string, quantity: number) => {
-    console.log("updateItemQuantity", productId, size, color, quantity);
+    if (quantity < 1) return;
+
+    setCart((prevCart) => {
+      const updatedItems = prevCart.items.map((item) => {
+        if (item.product.id === productId && item.size === size && item.color === color) {
+          return { ...item, quantity };
+        }
+        return item;
+      });
+      return { ...prevCart, items: updatedItems };
+    });
   };
 
   // Remove item from cart
   const removeItem = (productId: string, size: string, color: string) => {
-    console.log("removeItem", productId, size, color);
+    setCart((prevCart) => ({
+      ...prevCart,
+      items: prevCart.items.filter((item) => !(item.product.id === productId && item.size === size && item.color === color)),
+    }));
   };
 
   // Clear cart
