@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { CartState, CartItem, Product } from "@/types";
 import { useLocalStorage } from "./useLocalStorage";
+import { useAppDispatch } from "@/store/store";
+import { setItemCount } from "@/store/features/cartSlice";
 
 const initialCartState: CartState = {
   items: [],
@@ -10,24 +12,25 @@ const initialCartState: CartState = {
 };
 
 export function useCart() {
+  const dispatch = useAppDispatch();
   const [cart, setCart] = useLocalStorage<CartState>("cart", initialCartState);
 
-  // Calculate cart total when items change
+  // Calculate cart total and item count when items change
   useEffect(() => {
     const newTotal = cart.items.reduce((sum, item) => {
       const itemPrice = item.product.onSale ? item.product.price * (1 - item.product.discountPercentage! / 100) : item.product.price;
       return sum + itemPrice * item.quantity;
     }, 0);
 
-    const roundedTotal = Number(newTotal.toFixed(2));
+    const newItemCount = cart.items.reduce((count, item) => count + item.quantity, 0);
 
-    if (roundedTotal !== cart.total) {
-      setCart((prevCart) => ({
-        ...prevCart,
-        total: roundedTotal,
-      }));
-    }
-  }, [cart.items, cart.total, setCart]);
+    setCart((prevCart) => ({
+      ...prevCart,
+      total: Number(newTotal.toFixed(2)),
+    }));
+
+    dispatch(setItemCount(newItemCount));
+  }, [cart.items, setCart, dispatch]);
 
   // Add item to cart
   const addItem = (product: Product, size: string, color: string, quantity = 1) => {
@@ -45,9 +48,10 @@ export function useCart() {
       }
 
       // Add new item
+      const newItems = [...prevCart.items, { product, size, color, quantity }];
       return {
         ...prevCart,
-        items: [...prevCart.items, { product, size, color, quantity }],
+        items: newItems,
       };
     });
   };
@@ -78,11 +82,7 @@ export function useCart() {
   // Clear cart
   const clearCart = () => {
     setCart(initialCartState);
-  };
-
-  // Get cart item count
-  const getItemCount = () => {
-    return cart.items.reduce((count, item) => count + item.quantity, 0);
+    dispatch(setItemCount(0));
   };
 
   return {
@@ -91,6 +91,5 @@ export function useCart() {
     updateItemQuantity,
     removeItem,
     clearCart,
-    getItemCount,
   };
 }

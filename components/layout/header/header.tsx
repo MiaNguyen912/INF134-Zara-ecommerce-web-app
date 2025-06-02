@@ -6,7 +6,6 @@ import Link from "next/link";
 import { Search, ShoppingBag, Menu, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useCart } from "@/hooks/useCart";
 import { useScreenType } from "@/hooks/useScreenType";
 import { useTheme } from "next-themes";
 import { useAppDispatch, useAppSelector } from "@/store/store";
@@ -15,8 +14,7 @@ import { Menu as MenuComponent } from "./menu";
 
 export function Header() {
   const dispatch = useAppDispatch();
-  const { getItemCount } = useCart();
-  const itemCount = getItemCount();
+  const itemCount = useAppSelector((state) => state.cart.itemCount);
   const [isDesktop, isTablet, isMobile] = useScreenType();
   const { theme, setTheme, systemTheme } = useTheme();
 
@@ -37,7 +35,6 @@ export function Header() {
         {/* Desktop navigation */}
         {isDesktop ? (
           <div className="h-20 flex items-center justify-between px-20">
-
             {/* Home */}
             <Link href="/home">
               <Button variant="ghost" size="icon" className="relative hover:bg-transparent hover:font-bold text-sm" aria-label="Home">
@@ -106,6 +103,7 @@ export function Header() {
               <Link href="/cart">
                 <Button variant="ghost" size="icon" className="relative" aria-label="Cart">
                   <ShoppingBag className="h-5 w-5" />
+                  {itemCount > 0 && <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">{itemCount}</span>}
                 </Button>
               </Link>
 
