@@ -81,7 +81,9 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                     <button
                       key={color}
                       onClick={() => setSelectedColor(color)}
-                      className={`w-8 h-8 rounded-full border-2 ${selectedColor === color ? "border-black" : "border-transparent"}`}
+                      className={`w-8 h-8 rounded-full border-2 transition-all duration-200 ${
+                        selectedColor === color ? "border-black ring-2 ring-black ring-offset-2 shadow-md" : "border-gray-200 hover:border-gray-400"
+                      }`}
                       style={{ backgroundColor: color.toLowerCase() }}
                       aria-label={`Select ${color} color`}
                     />
