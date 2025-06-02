@@ -36,7 +36,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
   useEffect(() => {
     const urlSize = searchParams.get("size");
-    if(urlSize && product.sizes.includes(urlSize)){
+    console.log(urlSize);
+    if (urlSize && product.sizes.includes(urlSize)) {
       setSelectedSize(urlSize);
     }
   }, [searchParams, product.sizes]);

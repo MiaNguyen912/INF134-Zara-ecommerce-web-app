@@ -19,6 +19,10 @@ export function ProductCard({ product }: ProductCardProps) {
     router.push(`/product/${product.id}?size=${size}`);
   };
 
+  // get all available sizes of the product
+  const availableSizes = product.sizes.map((size) => size.toUpperCase());
+  // console.log(availableSizes);
+
   return (
     <Link href={`/product/${product.id}`} className="group">
       <div className="aspect-[3/4] relative overflow-hidden mb-3">
@@ -40,11 +44,8 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="absolute bottom-0 left-0 right-0 bg-white/90 text-xs text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 py-2">
           <div className="font-semibold mb-1 text-black">ADD SIZE</div>
           <div className="flex justify-center gap-2 text-gray-700">
-            {["XS", "S", "M", "L", "XL", "XXL"].map((size) => (
-              <span
-                key={size}
-                onClick={(e) => handleSizeClick(e, size)}
-                className={`cursor-pointer ${size === "XS" ? "text-gray-400 pointer-events-none" : ""} hover:underline`}>
+            {availableSizes.map((size) => (
+              <span key={size} onClick={(e) => handleSizeClick(e, size)} className={`cursor-pointer hover:underline`}>
                 {size}
               </span>
             ))}
