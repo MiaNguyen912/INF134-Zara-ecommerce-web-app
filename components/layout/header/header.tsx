@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Search, ShoppingBag, Menu, Home } from "lucide-react";
@@ -17,6 +18,8 @@ export function Header() {
   const itemCount = useAppSelector((state) => state.cart.itemCount);
   const [isDesktop, isTablet, isMobile] = useScreenType();
   const { theme, setTheme, systemTheme } = useTheme();
+  const router = useRouter();
+  const [query, setQuery] = useState("");
 
   // Get state from Redux
   const showMenu = useAppSelector((state) => state.app.showMenu);
@@ -122,7 +125,23 @@ export function Header() {
         <div className={`overflow-hidden transition-all duration-300 ease-in-out ${showSearch ? "h-16 opacity-100 mb-4" : "h-0 opacity-0"}`}>
           <div className="py-4 flex items-center w-[30%] mx-auto">
             <Search className="h-5 w-5 mr-2 text-gray-400" />
-            <Input placeholder="Search products..." className="border-0 focus-visible:ring-0 bg-transparent text-sm" autoFocus={showSearch} />
+            <Input placeholder="Search products..." className="border-0 focus-visible:ring-0 bg-transparent text-sm" autoFocus={showSearch} 
+              value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => {
+                if (e.key === "Enter" && query.trim()) {
+                  router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+                  dispatch(setShowSearch(false));
+                }
+              }}
+            />
+            <Button variant="ghost" size="sm" onClick={() => {
+              if (query.trim()) {
+                router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+                dispatch(setShowSearch(false));
+              }
+            }}
+            >
+              Search
+            </Button>
             <Button variant="ghost" size="sm" onClick={() => dispatch(setShowSearch(false))}>
               Cancel
             </Button>
