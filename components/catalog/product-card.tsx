@@ -99,12 +99,17 @@ export function ProductCard({ product }: ProductCardProps) {
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium truncate">{product.name}</h3>
             <div className="flex items-center gap-2">
+              {/* favorite button */}
               <button onClick={handleFavorite} className="p-1 hover:bg-gray-100 rounded-full transition-colors" aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}>
                 <Heart className={`w-4 h-4 ${isFavorite ? "fill-red-500 text-red-500" : "text-gray-400"}`} strokeWidth={1.5} />
               </button>
-              <button onClick={handleQuickAdd} className="p-1 hover:bg-gray-100 rounded-full transition-colors" aria-label="Quick add to cart">
-                <ShoppingCart className="w-4 h-4 text-gray-400" strokeWidth={1.5} />
-              </button>
+
+              {/* add to cart button */}
+              {product.stock > 0 && (
+                <button onClick={handleQuickAdd} className="p-1 hover:bg-gray-100 rounded-full transition-colors" aria-label="Quick add to cart">
+                  <ShoppingCart className="w-4 h-4 text-gray-400" strokeWidth={1.5} />
+                </button>
+              )}
             </div>
           </div>
 
@@ -127,10 +132,10 @@ export function ProductCard({ product }: ProductCardProps) {
 
       {/* Quick Add Alert */}
       {showAlert && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="absolute inset-0 bg-black/20" onClick={() => setShowAlert(false)} />
-          <div className="relative bg-white px-6 py-4 rounded-lg shadow-lg text-center">
-            <p className="text-sm font-medium">Added to cart!</p>
+        <div className="fixed inset-0 flex items-end justify-center z-50 pb-7">
+          <div className="absolute inset-0 bg-black/10 transition-opacity duration-300 ease-in-out animate-fadeIn" onClick={() => setShowAlert(false)} />
+          <div className="relative bg-white px-6 py-4 rounded-lg shadow-lg text-center transform transition-all duration-300 ease-in-out animate-slideUp">
+            <p className="text-sm font-medium">Added to cart</p>
             <p className="text-xs text-gray-500 mt-1">
               {product.name} - {product.sizes[0]} - {product.color[0]}
             </p>
