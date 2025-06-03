@@ -30,7 +30,7 @@ export function Menu() {
   return (
     <div>
       {isDesktop ? (
-        <div className={`bg-gray-200 w-full  px-20 ${showMenu ? "h-fit pt-8 pb-4" : "h-0"} overflow-hidden transition-all duration-300 ease-in-out`}>
+        <div className={`bg-white w-full  px-20 ${showMenu ? "h-fit pt-8 pb-4" : "h-0"} overflow-hidden transition-all duration-300 ease-in-out`}>
           <nav className="flex justify-around p-4">
             {/* main categories */}
             {categories.map((category) => (
