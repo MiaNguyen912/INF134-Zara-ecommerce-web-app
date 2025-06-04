@@ -27,10 +27,19 @@ export function Menu() {
     dispatch(setShowMenu(false));
   };
 
+  // Group subcategories by type
+  const groupedSubcategories = subcategories[selectedCategory.name as keyof typeof subcategories].reduce((acc, subcategory) => {
+    if (!acc[subcategory.type]) {
+      acc[subcategory.type] = [];
+    }
+    acc[subcategory.type].push(subcategory);
+    return acc;
+  }, {} as Record<string, (typeof subcategories)[keyof typeof subcategories]>);
+
   return (
     <div>
       {isDesktop ? (
-        <div className={`bg-white w-full  px-20 ${showMenu ? "h-fit pt-8 pb-4" : "h-0"} overflow-hidden transition-all duration-300 ease-in-out`}>
+        <div className={`bg-white w-full px-20 ${showMenu ? "h-fit pt-8 pb-4" : "h-0"} overflow-hidden transition-all duration-300 ease-in-out`}>
           <nav className="flex justify-around p-4">
             {/* main categories */}
             {categories.map((category) => (
@@ -47,89 +56,33 @@ export function Menu() {
           {/* Desktop subcategories */}
           <div className="mt-4 px-8">
             <div className="grid grid-cols-4 gap-10">
-              {/* TRENDING */}
-              <div>
-                <p className="font-bold mb-2">TRENDING</p>
-                {["THE NEW", "SPECIAL OCCASION", "BUTTER YELLOW", "SPECIAL EDITION", "ZARA SPRLS", "ZARA PRE-OWNED"].map((name, index) => (
-                  <Link
-                    key={index}
-                    href={`/catalog/${selectedCategory.slug}/trending-${index}`}
-                    onClick={handleSubcategoryClick}
-                    className="block py-1 text-sm hover:underline"
-                  >
-                    {name}
-                  </Link>
-                ))}
-                {/*BEST SELLERS */}
-                <Link
-                  href={`/catalog/${selectedCategory.slug}/best-sellers`}
-                  onClick={handleSubcategoryClick}
-                  className="block py-1 text-sm font-bold hover:underline mt-4"
-                >
-                  BEST SELLERS
-                </Link>
-              </div>
-
-              {/* CLOTHING */}
-              <div>
-                <p className="font-bold mb-2">CLOTHING</p>
-                {["T-SHIRTS", "TOPS", "PANTS", "SHORTS", "SKIRTS", "JEANS", "VESTS", "DRESSES", "SWEATERS", "JACKET", "BLAZERS"].map((name, index) => (
-                  <Link
-                    key={index}
-                    href={`/catalog/${selectedCategory.slug}/trending-${index}`}
-                    onClick={handleSubcategoryClick}
-                    className="block py-1 text-sm hover:underline"
-                  >
-                    {name}
-                  </Link>
-                ))}
-              </div>
-
-              {/* ACCESSORIES */}
-              <div>
-                <p className="font-bold mb-2">ACCESSORIES</p>
-                {["JEWLRY", "BAGS", "SWIMWEAR", "SHOES"].map((name, index) => (
-                  <Link
-                    key={index}
-                    href={`/catalog/${selectedCategory.slug}/trending-${index}`}
-                    onClick={handleSubcategoryClick}
-                    className="block py-1 text-sm hover:underline"
-                  >
-                    {name}
-                  </Link>
-                ))}
-              </div>
-
-              {/* BEAUTY */}
-              <div>
-                <p className="font-bold mb-2">BEAUTY</p>
-                {["PERFUMES", "MAKEUP", "ZARA HAIR"].map((name, index) => (
-                  <Link
-                    key={index}
-                    href={`/catalog/${selectedCategory.slug}/trending-${index}`}
-                    onClick={handleSubcategoryClick}
-                    className="block py-1 text-sm hover:underline"
-                  >
-                    {name}
-                  </Link>
-                ))}
-              </div>
+              {/* Subcategories by type */}
+              {Object.entries(groupedSubcategories).map(([type, items]) => (
+                <div key={type}>
+                  <p className="font-bold mb-2">{type}</p>
+                  {items.map((subcategory) => (
+                    <Link key={subcategory.id} href={`/catalog/${selectedCategory.slug}/${subcategory.slug}`} onClick={handleSubcategoryClick} className="block py-1 text-sm hover:underline">
+                      {subcategory.name}
+                    </Link>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>
       ) : (
         // Mobile menu using Sheet
         <Sheet open={showMenu} onOpenChange={(open) => dispatch(setShowMenu(open))}>
-          <SheetContent side="right" className="w-[50%] p-0">
+          <SheetContent side="right" className="w-[50%] p-0 pt-8">
             <div className="h-full flex flex-col">
-              {/* Main categories */}
-              <nav className="flex flex-col p-4 border-b">
+              {/* Main categories with dropdown */}
+              <nav className="flex flex-row border-b border-gray-500">
                 {categories.map((category) => (
                   <Button
                     key={category.id}
                     variant="ghost"
                     onClick={() => handleCategoryClick(category)}
-                    className={`justify-start text-sm hover:font-bold hover:bg-transparent ${category.name === selectedCategory.name ? "font-bold" : ""}`}>
+                    className={`justify-start text-sm hover:font-bold hover:bg-black hover:text-white ${category.name === selectedCategory.name ? "font-bold bg-black text-white" : "text-gray-500"}`}>
                     {category.name}
                   </Button>
                 ))}

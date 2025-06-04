@@ -5,12 +5,11 @@
 
 ## TODO
 
-- 1. update menu according to figma prototype and A5's "Proposed Changes" part (Move the “best sellers” feature closer to “trending items” in the main menu or provide a text link consistent with other categories)
-- 2. Decrease white space between product images on product pages.
-- 3. add filtering/sorting button
-- 4. implement the search function
-- 5. set "S" as current user size preference, move color option from the hover panel outside, make user pick a color before adding to card
-- 6. in Product detail page, add alert for add-to-cart button (or a modal pop up on the right side)
+- 1. (done) update menu according to figma prototype and A5's "Proposed Changes" part (Move the “best sellers” feature closer to “trending items” in the main menu or provide a text link consistent with other categories)
+- 3. (done) add filtering/sorting button
+- 4. (done-partially) implement the search function
+- 5. (done) set "S" as current user size preference, move color option from the hover panel outside, make user pick a color before adding to card
+- 6. (done) in Product detail page, add alert for add-to-cart button (or a modal pop up on the right side)
 
 - 7. make a page to store favorited items
 - 8. display product's reviews and rating (checkout data/products.ts to see the data schema)
