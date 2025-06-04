@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { ProductGrid } from "@/components/catalog/product-grid";
 import { categories } from "@/data/categories";
 import { products } from "@/data/products";
+import { SlidersHorizontal } from "lucide-react";
 
 interface CategoryPageProps {
   params: {
@@ -36,8 +37,12 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   return (
     <div className="py-8">
       <div className="container mx-auto px-4">
-        <h1 className="text-2xl font-light mb-8">{categoryData.name}</h1>
-
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-2xl font-light mb-8">{categoryData.name}</h1>
+          <button className="text-gray-600 hover:text-black" aria-label="Filter">
+            <SlidersHorizontal className="w-5 h-5" />
+          </button>
+        </div>
         {categoryProducts.length > 0 ? <ProductGrid products={categoryProducts} /> : <p className="text-center py-12 text-gray-500">No products found in this category.</p>}
       </div>
     </div>

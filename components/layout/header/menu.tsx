@@ -30,7 +30,7 @@ export function Menu() {
   return (
     <div>
       {isDesktop ? (
-        <div className={`bg-gray-200 w-full  px-20 ${showMenu ? "h-fit pt-8 pb-4" : "h-0"} overflow-hidden transition-all duration-300 ease-in-out`}>
+        <div className={`bg-white w-full  px-20 ${showMenu ? "h-fit pt-8 pb-4" : "h-0"} overflow-hidden transition-all duration-300 ease-in-out`}>
           <nav className="flex justify-around p-4">
             {/* main categories */}
             {categories.map((category) => (
@@ -45,29 +45,76 @@ export function Menu() {
           </nav>
 
           {/* Desktop subcategories */}
-          <div className="mt-4">
-            <nav className="max-h-80 grid grid-flow-col grid-rows-4 gap-4 overflow-y-auto">
-              {(() => {
-                let prevType = "";
-                const elements = [];
-                for (const subcategory of subcategories[selectedCategory.name as keyof typeof subcategories]) {
-                  if (subcategory.type !== prevType) {
-                    prevType = subcategory.type;
-                    elements.push(
-                      <div key={subcategory.type} className="pt-2">
-                        <p className="font-bold">{subcategory.type}</p>
-                      </div>
-                    );
-                  }
-                  elements.push(
-                    <Link onClick={handleSubcategoryClick} key={subcategory.id} href={`/catalog/${selectedCategory.slug}/${subcategory.slug}`} className="block p-3 text-sm border-b border-gray-100">
-                      {subcategory.name}
-                    </Link>
-                  );
-                }
-                return elements;
-              })()}
-            </nav>
+          <div className="mt-4 px-8">
+            <div className="grid grid-cols-4 gap-10">
+              {/* TRENDING */}
+              <div>
+                <p className="font-bold mb-2">TRENDING</p>
+                {["THE NEW", "SPECIAL OCCASION", "BUTTER YELLOW", "SPECIAL EDITION", "ZARA SPRLS", "ZARA PRE-OWNED"].map((name, index) => (
+                  <Link
+                    key={index}
+                    href={`/catalog/${selectedCategory.slug}/trending-${index}`}
+                    onClick={handleSubcategoryClick}
+                    className="block py-1 text-sm hover:underline"
+                  >
+                    {name}
+                  </Link>
+                ))}
+                {/*BEST SELLERS */}
+                <Link
+                  href={`/catalog/${selectedCategory.slug}/best-sellers`}
+                  onClick={handleSubcategoryClick}
+                  className="block py-1 text-sm font-bold hover:underline mt-4"
+                >
+                  BEST SELLERS
+                </Link>
+              </div>
+
+              {/* CLOTHING */}
+              <div>
+                <p className="font-bold mb-2">CLOTHING</p>
+                {["T-SHIRTS", "TOPS", "PANTS", "SHORTS", "SKIRTS", "JEANS", "VESTS", "DRESSES", "SWEATERS", "JACKET", "BLAZERS"].map((name, index) => (
+                  <Link
+                    key={index}
+                    href={`/catalog/${selectedCategory.slug}/trending-${index}`}
+                    onClick={handleSubcategoryClick}
+                    className="block py-1 text-sm hover:underline"
+                  >
+                    {name}
+                  </Link>
+                ))}
+              </div>
+
+              {/* ACCESSORIES */}
+              <div>
+                <p className="font-bold mb-2">ACCESSORIES</p>
+                {["JEWLRY", "BAGS", "SWIMWEAR", "SHOES"].map((name, index) => (
+                  <Link
+                    key={index}
+                    href={`/catalog/${selectedCategory.slug}/trending-${index}`}
+                    onClick={handleSubcategoryClick}
+                    className="block py-1 text-sm hover:underline"
+                  >
+                    {name}
+                  </Link>
+                ))}
+              </div>
+
+              {/* BEAUTY */}
+              <div>
+                <p className="font-bold mb-2">BEAUTY</p>
+                {["PERFUMES", "MAKEUP", "ZARA HAIR"].map((name, index) => (
+                  <Link
+                    key={index}
+                    href={`/catalog/${selectedCategory.slug}/trending-${index}`}
+                    onClick={handleSubcategoryClick}
+                    className="block py-1 text-sm hover:underline"
+                  >
+                    {name}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       ) : (
