@@ -1,17 +1,12 @@
 "use client";
+
 import { ProductCard } from "@/components/catalog/product-card";
 import { products } from "@/data/products";
+import { useSearchParams } from "next/navigation";
 
-interface SearchPageProps {
-  searchParams: { q?: string };
-}
-
-// Add dynamic configuration
-export const dynamic = "force-dynamic";
-
-// eslint-disable-next-line @next/next/no-async-client-component
-export default async function SearchPage({ searchParams }: SearchPageProps) {
-  const query = searchParams.q?.toLowerCase() || "";
+export default function SearchPage() {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q")?.toLowerCase() || "";
 
   const filtered = products.filter((product) => {
     const searchableText = `${product.name} ${product.description}`.toLowerCase();
