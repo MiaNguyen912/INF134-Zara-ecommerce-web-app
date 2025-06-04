@@ -19,6 +19,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   const [selectedColor, setSelectedColor] = useState<string>("");
   const { addItem } = useCart();
   const searchParams = useSearchParams();
+  const [showAlert, setShowAlert] = useState(false);
 
   // Get similar products (from same category, excluding this product)
   const similarProducts = products.filter((p) => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4);
@@ -27,11 +28,13 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   const salePrice = product.onSale ? ((product.price * (100 - product.discountPercentage!)) / 100).toFixed(2) : null;
 
   const handleAddToCart = () => {
-    if (!selectedSize || !selectedColor) {
-      return;
-    }
+    console.log("Add to cart clicked");
 
     addItem(product, selectedSize, selectedColor);
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 2000);
   };
 
   useEffect(() => {
@@ -43,97 +46,111 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   }, [searchParams, product.sizes]);
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Left Panel - Image Grid */}
-          <div className="lg:w-2/3 lg:sticky lg:top-24 lg:self-start">
-            <div className="grid grid-cols-2 gap-4">
-              {product.images.map((image, index) => (
-                <div key={index} className="relative aspect-[3/4]">
-                  <Image src={image} alt={`${product.name} - View ${index + 1}`} fill className="object-cover" sizes="(min-width: 1024px) 33vw, 50vw" />
+    <>
+      <div className="min-h-screen">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Left Panel - Image Grid */}
+            <div className="lg:w-2/3 lg:sticky lg:top-24 lg:self-start">
+              <div className="grid grid-cols-2 gap-4">
+                {product.images.map((image, index) => (
+                  <div key={index} className="relative aspect-[3/4]">
+                    <Image src={image} alt={`${product.name} - View ${index + 1}`} fill className="object-cover" sizes="(min-width: 1024px) 33vw, 50vw" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right Panel - Product Info */}
+            <div className="lg:w-1/3">
+              <div className="sticky top-24">
+                <h1 className="text-2xl font-light mb-4">{product.name}</h1>
+
+                <div className="flex items-center space-x-3 mb-6">
+                  {salePrice ? (
+                    <>
+                      <span className="text-lg font-medium">${salePrice}</span>
+                      <span className="text-base text-gray-500 line-through">${product.price.toFixed(2)}</span>
+                    </>
+                  ) : (
+                    <span className="text-lg font-medium">${product.price.toFixed(2)}</span>
+                  )}
                 </div>
-              ))}
+
+                {/* Color Selector */}
+                <div className="mb-6">
+                  <h2 className="text-sm font-medium mb-2">Color</h2>
+                  <div className="flex gap-2">
+                    {product.color.map((color) => (
+                      <button
+                        key={color}
+                        onClick={() => setSelectedColor(color)}
+                        className={`w-8 h-8 rounded-full border-2 transition-all duration-200 ${
+                          selectedColor === color ? "border-black ring-2 ring-black ring-offset-2 shadow-md" : "border-gray-200 hover:border-gray-400"
+                        }`}
+                        style={{ backgroundColor: color.toLowerCase() }}
+                        aria-label={`Select ${color} color`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Size Selector */}
+                <div className="mb-6">
+                  <h2 className="text-sm font-medium mb-2">Size</h2>
+                  <Select value={selectedSize} onValueChange={setSelectedSize}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select size" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {product.sizes.map((size) => (
+                        <SelectItem key={size} value={size}>
+                          {size}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Add to Cart Button */}
+                <Button onClick={handleAddToCart} disabled={!selectedSize || !selectedColor} className="w-full mb-6">
+                  Add to Cart
+                </Button>
+
+                {/* Product Description */}
+                <div className="prose prose-sm max-w-none">
+                  <h2 className="text-sm font-medium mb-2">Description</h2>
+                  <p className="text-sm text-gray-600">{product.description}</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Right Panel - Product Info */}
-          <div className="lg:w-1/3">
-            <div className="sticky top-24">
-              <h1 className="text-2xl font-light mb-4">{product.name}</h1>
-
-              <div className="flex items-center space-x-3 mb-6">
-                {salePrice ? (
-                  <>
-                    <span className="text-lg font-medium">${salePrice}</span>
-                    <span className="text-base text-gray-500 line-through">${product.price.toFixed(2)}</span>
-                  </>
-                ) : (
-                  <span className="text-lg font-medium">${product.price.toFixed(2)}</span>
-                )}
+          {/* Similar Products Section */}
+          {similarProducts.length > 0 && (
+            <section className="mt-16 pt-16 border-t">
+              <h2 className="text-xl font-light mb-8">You may also like</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {similarProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
               </div>
+            </section>
+          )}
+        </div>
+      </div>
 
-              {/* Color Selector */}
-              <div className="mb-6">
-                <h2 className="text-sm font-medium mb-2">Color</h2>
-                <div className="flex gap-2">
-                  {product.color.map((color) => (
-                    <button
-                      key={color}
-                      onClick={() => setSelectedColor(color)}
-                      className={`w-8 h-8 rounded-full border-2 transition-all duration-200 ${
-                        selectedColor === color ? "border-black ring-2 ring-black ring-offset-2 shadow-md" : "border-gray-200 hover:border-gray-400"
-                      }`}
-                      style={{ backgroundColor: color.toLowerCase() }}
-                      aria-label={`Select ${color} color`}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Size Selector */}
-              <div className="mb-6">
-                <h2 className="text-sm font-medium mb-2">Size</h2>
-                <Select value={selectedSize} onValueChange={setSelectedSize}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select size" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {product.sizes.map((size) => (
-                      <SelectItem key={size} value={size}>
-                        {size}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Add to Cart Button */}
-              <Button onClick={handleAddToCart} disabled={!selectedSize || !selectedColor} className="w-full mb-6">
-                Add to Cart
-              </Button>
-
-              {/* Product Description */}
-              <div className="prose prose-sm max-w-none">
-                <h2 className="text-sm font-medium mb-2">Description</h2>
-                <p className="text-sm text-gray-600">{product.description}</p>
-              </div>
-            </div>
+      {/* Add Alert */}
+      {showAlert && (
+        <div className="fixed inset-0 flex items-end justify-center pb-16 z-[100]">
+          <div className="relative bg-white px-6 py-4 rounded-lg shadow-xl text-center transform transition-all duration-300 ease-in-out animate-slideUp max-w-sm mx-4">
+            <p className="text-base font-medium">Added to cart</p>
+            <p className="text-sm text-gray-600 mt-1">
+              {product.name} - {selectedSize} - {selectedColor}
+            </p>
           </div>
         </div>
-
-        {/* Similar Products Section */}
-        {similarProducts.length > 0 && (
-          <section className="mt-16 pt-16 border-t">
-            <h2 className="text-xl font-light mb-8">You may also like</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {similarProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </section>
-        )}
-      </div>
-    </div>
+      )}
+    </>
   );
 }

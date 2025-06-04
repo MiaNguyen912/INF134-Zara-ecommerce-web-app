@@ -20,6 +20,8 @@ export function Header() {
   const { theme, setTheme, systemTheme } = useTheme();
   const router = useRouter();
   const [query, setQuery] = useState("");
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [prevItemCount, setPrevItemCount] = useState(itemCount);
 
   // Get state from Redux
   const showMenu = useAppSelector((state) => state.app.showMenu);
@@ -29,6 +31,15 @@ export function Header() {
   useEffect(() => {
     dispatch(setIsMounted(true)); // prevent hydration error
   }, [dispatch]);
+
+  // Show tooltip when item count changes
+  useEffect(() => {
+    if (itemCount !== prevItemCount && itemCount > prevItemCount) {
+      setShowTooltip(true);
+      setPrevItemCount(itemCount);
+      setTimeout(() => setShowTooltip(false), 2000);
+    }
+  }, [itemCount, prevItemCount]);
 
   if (!isMounted) return null; // prevent hydration error
 
@@ -166,6 +177,9 @@ export function Header() {
           </div>
         </div>
       </div>
+
+      {/* Cart Tooltip */}
+      {showTooltip && <div className="fixed top-14 right-10 bg-black text-white px-4 py-2 rounded-md shadow-lg animate-fadeIn z-[100]">Item added</div>}
     </header>
   );
 }

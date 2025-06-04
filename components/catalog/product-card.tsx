@@ -18,6 +18,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const [showAlert, setShowAlert] = useState(false);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [validationMessage, setValidationMessage] = useState<string | null>(null);
   // Calculate sale price if product is on sale
   const salePrice = product.onSale ? ((product.price * (100 - product.discountPercentage!)) / 100).toFixed(2) : null;
 
@@ -39,11 +40,15 @@ export function ProductCard({ product }: ProductCardProps) {
     e.preventDefault();
     e.stopPropagation();
     if (selectedSize == null) {
-      // setSelectedSize(product.sizes[0]); // auto select the first size
-      alert("Please select a size for " + product.name);
+      // setSelectedSize(product.sizes[0]); // auto select the first size since product sizes are hidden in the hover panel
+      setValidationMessage(`Please select a size`);
+      setTimeout(() => setValidationMessage(null), 2000);
+      return;
     }
     if (selectedColor == null) {
-      alert("Please select a color for " + product.name);
+      setValidationMessage(`Please select a color`);
+      setTimeout(() => setValidationMessage(null), 2000);
+      return;
     }
     if (selectedSize && selectedColor) {
       addItem(product, selectedSize, selectedColor);
@@ -122,9 +127,16 @@ export function ProductCard({ product }: ProductCardProps) {
 
               {/* add to cart button */}
               {product.stock > 0 && (
-                <button onClick={handleQuickAdd} className="p-1 hover:bg-gray-100 rounded-full transition-colors" aria-label="Quick add to cart">
-                  <ShoppingCart className="w-4 h-4 text-gray-400" strokeWidth={1.5} />
-                </button>
+                <div className="relative">
+                  <button onClick={handleQuickAdd} className="p-1 hover:bg-gray-100 rounded-full transition-colors" aria-label="Quick add to cart">
+                    <ShoppingCart className="w-4 h-4 text-gray-400" strokeWidth={1.5} />
+                  </button>
+
+                  {/* Validation Tooltip */}
+                  {validationMessage && (
+                    <div className="absolute right-0 top-full mt-2 bg-red-500 text-white px-3 py-2 rounded-md shadow-lg text-xs whitespace-nowrap z-50 animate-fadeIn">{validationMessage}</div>
+                  )}
+                </div>
               )}
             </div>
           </div>
@@ -153,7 +165,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <div className="relative bg-white px-6 py-4 rounded-lg shadow-lg text-center transform transition-all duration-300 ease-in-out animate-slideUp">
             <p className="text-sm font-medium">Added to cart</p>
             <p className="text-xs text-gray-500 mt-1">
-              {product.name} - {product.sizes[0]} - {product.color[0]}
+              {product.name} - {selectedSize} - {selectedColor}
             </p>
           </div>
         </div>
