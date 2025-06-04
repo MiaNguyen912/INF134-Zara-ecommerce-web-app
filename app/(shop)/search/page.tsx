@@ -6,6 +6,9 @@ interface SearchPageProps {
   searchParams: { q?: string };
 }
 
+// Add dynamic configuration
+export const dynamic = "force-dynamic";
+
 // eslint-disable-next-line @next/next/no-async-client-component
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const query = searchParams.q?.toLowerCase() || "";
