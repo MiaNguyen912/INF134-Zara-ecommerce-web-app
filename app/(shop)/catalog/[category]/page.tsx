@@ -80,9 +80,6 @@ export default function CategoryPage({ params }: CategoryPageProps) {
           <div className="flex items-center gap-4">
             <SortButton onSort={setCurrentSort} currentSort={currentSort} />
             <FilterButton onFilterChange={setActiveFilters} activeFilters={activeFilters} />
-            {/* <button className="text-gray-600 hover:text-black" aria-label="Filter">
-              <SlidersHorizontal className="w-5 h-5" />
-            </button> */}
           </div>
         </div>
         {categoryProducts.length > 0 ? <ProductGrid products={categoryProducts} /> : <p className="text-center py-12 text-gray-500">No products found matching your filters.</p>}

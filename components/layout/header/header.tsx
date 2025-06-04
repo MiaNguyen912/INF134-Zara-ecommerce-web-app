@@ -38,55 +38,66 @@ export function Header() {
         {/* Desktop navigation */}
         {isDesktop ? (
           <div className="h-20 flex items-center justify-between px-20">
-            {/* Home */}
-            <Link href="/home">
-              <Button variant="ghost" size="icon" className="relative hover:bg-transparent hover:font-bold text-sm" aria-label="Home">
-                <Home className="h-5 w-5" />
+            {/* Left Navigation */}
+            <div className="flex items-center justify-between w-[30%]">
+              {/* Home */}
+              <Link href="/home">
+                <Button variant="ghost" size="icon" className="relative hover:bg-transparent hover:font-bold text-sm" aria-label="Home">
+                  <Home className="h-5 w-5" />
+                </Button>
+              </Link>
+
+              {/* Menu */}
+              <Button variant="ghost" size="icon" onClick={() => dispatch(setShowMenu(!showMenu))} className="relative border-none hover:bg-transparent hover:font-bold text-sm">
+                MENU
               </Button>
-            </Link>
 
-            {/* Menu */}
-            <Button variant="ghost" size="icon" onClick={() => dispatch(setShowMenu(!showMenu))} className="relative border-none hover:bg-transparent hover:font-bold text-sm">
-              MENU
-            </Button>
+              {/* New */}
+              <Link href="/new">
+                <Button variant="ghost" size="icon" className="relative hover:bg-transparent hover:font-bold text-sm" aria-label="New">
+                  NEW
+                </Button>
+              </Link>
 
-            {/* New */}
-            <Link href="/new">
-              <Button variant="ghost" size="icon" className="relative hover:bg-transparent hover:font-bold text-sm" aria-label="New">
-                NEW
+              {/* Search Toggle */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => dispatch(setShowSearch(!showSearch))}
+                className="relative border-none hover:bg-transparent hover:font-bold text-sm"
+                aria-label="Search">
+                SEARCH
               </Button>
-            </Link>
-
-            {/* Search Toggle */}
-            <Button variant="ghost" size="icon" onClick={() => dispatch(setShowSearch(!showSearch))} className="relative border-none hover:bg-transparent hover:font-bold text-sm" aria-label="Search">
-              SEARCH
-            </Button>
+            </div>
 
             {/* Logo */}
-            <Link href="/home" className="font-bold text-xl tracking-widest w-[40%]">
+            <Link href="/home" className="font-bold text-xl tracking-widest w-[20%]">
               <Image src="/svg/logo.svg" alt="Logo" width={0} height={0} className="h-10 mx-auto my-6 w-fit" />
             </Link>
 
-            {/* log in */}
-            <Link href="/login">
-              <Button variant="ghost" size="icon" className="relative hover:bg-transparent hover:font-bold text-sm" aria-label="Login">
-                LOGIN
-              </Button>
-            </Link>
+            {/* Right Navigation */}
+            <div className="flex items-center justify-between w-[30%]">
+              {/* log in */}
+              <Link href="/login">
+                <Button variant="ghost" size="icon" className="relative hover:bg-transparent hover:font-bold text-sm" aria-label="Login">
+                  LOGIN
+                </Button>
+              </Link>
 
-            {/* Help */}
-            <Link href="/help">
-              <Button variant="ghost" size="icon" className="relative hover:bg-transparent hover:font-bold text-sm" aria-label="Help">
-                HELP
-              </Button>
-            </Link>
+              {/* Help */}
+              <Link href="/help">
+                <Button variant="ghost" size="icon" className="relative hover:bg-transparent hover:font-bold text-sm" aria-label="Help">
+                  HELP
+                </Button>
+              </Link>
 
-            {/* Cart */}
-            <Link href="/cart">
-              <Button variant="ghost" size="icon" className="relative hover:bg-transparent hover:font-bold text-sm" aria-label="Cart">
-                CART [{itemCount}]
-              </Button>
-            </Link>
+              {/* Cart */}
+              <Link href="/cart">
+                <Button variant="ghost" size="icon" className="relative hover:bg-transparent hover:font-bold text-sm" aria-label="Cart">
+                  CART [{itemCount}]
+                </Button>
+              </Link>
+            </div>
           </div>
         ) : (
           // mobile navigation
@@ -125,21 +136,28 @@ export function Header() {
         <div className={`overflow-hidden transition-all duration-300 ease-in-out ${showSearch ? "h-16 opacity-100 mb-4" : "h-0 opacity-0"}`}>
           <div className="py-4 flex items-center w-[30%] mx-auto">
             <Search className="h-5 w-5 mr-2 text-gray-400" />
-            <Input placeholder="Search products..." className="border-0 focus-visible:ring-0 bg-transparent text-sm" autoFocus={showSearch} 
-              value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => {
+            <Input
+              placeholder="Search products..."
+              className="border-0 focus-visible:ring-0 bg-transparent text-sm"
+              autoFocus={showSearch}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
                 if (e.key === "Enter" && query.trim()) {
                   router.push(`/search?q=${encodeURIComponent(query.trim())}`);
                   dispatch(setShowSearch(false));
                 }
               }}
             />
-            <Button variant="ghost" size="sm" onClick={() => {
-              if (query.trim()) {
-                router.push(`/search?q=${encodeURIComponent(query.trim())}`);
-                dispatch(setShowSearch(false));
-              }
-            }}
-            >
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                if (query.trim()) {
+                  router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+                  dispatch(setShowSearch(false));
+                }
+              }}>
               Search
             </Button>
             <Button variant="ghost" size="sm" onClick={() => dispatch(setShowSearch(false))}>
