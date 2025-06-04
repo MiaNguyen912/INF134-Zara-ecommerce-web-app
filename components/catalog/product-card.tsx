@@ -16,27 +16,37 @@ export function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
   const [isFavorite, setIsFavorite] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
   // Calculate sale price if product is on sale
   const salePrice = product.onSale ? ((product.price * (100 - product.discountPercentage!)) / 100).toFixed(2) : null;
 
   const handleSizeClick = (e: React.MouseEvent, size: string) => {
     e.preventDefault(); //Prevents default link nav
     e.stopPropagation(); //Stops bubbling up to link
-    router.push(`/product/${product.id}?size=${size}`);
+    setSelectedSize(size);
+    // router.push(`/product/${product.id}?size=${size}`);
   };
 
   const handleColorClick = (e: React.MouseEvent, color: string) => {
     e.preventDefault(); //Prevents default link nav
     e.stopPropagation(); //Stops bubbling up to link
-    router.push(`/product/${product.id}?color=${color}`);
+    setSelectedColor(color);
+    // router.push(`/product/${product.id}?color=${color}`);
   };
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (product.sizes.length > 0 && product.color.length > 0) {
-      addItem(product, product.sizes[0], product.color[0]);
+    if (selectedSize == null) {
+      // setSelectedSize(product.sizes[0]); // auto select the first size
+      alert("Please select a size for " + product.name);
+    }
+    if (selectedColor == null) {
+      alert("Please select a color for " + product.name);
+    }
+    if (selectedSize && selectedColor) {
+      addItem(product, selectedSize, selectedColor);
       setShowAlert(true);
       setTimeout(() => setShowAlert(false), 2000); // alert stays for 2 seconds
     }
@@ -70,26 +80,14 @@ export function ProductCard({ product }: ProductCardProps) {
           {/* low stock badge */}
           {product.stock < 100 && product.stock > 0 && <div className="absolute top-2 left-2 bg-white text-black text-xs px-2 py-1">Low stock</div>}
 
-          {/* Hover size/color selector */}
+          {/* Hover size selector */}
           <div className="absolute bottom-0 left-0 right-0 bg-white/90 text-xs text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 py-2">
             <div className="font-semibold mb-1 text-black">ADD SIZE</div>
             <div className="flex justify-center gap-2 text-gray-700">
               {availableSizes.map((size) => (
-                <span key={size} onClick={(e) => handleSizeClick(e, size)} className={`cursor-pointer hover:underline`}>
+                <span key={size} onClick={(e) => handleSizeClick(e, size)} className={`cursor-pointer hover:underline ${selectedSize == size ? "text-black underline" : "text-gray-600"}`}>
                   {size}
                 </span>
-              ))}
-            </div>
-            <div className="font-semibold mb-1 mt-2 text-black">ADD COLOR</div>
-            <div className="flex justify-center gap-2">
-              {availableColors.map((color) => (
-                <button
-                  key={color}
-                  onClick={(e) => handleColorClick(e, color)}
-                  className="w-4 h-4 rounded-full border-2 border-gray-200 hover:border-gray-400 transition-all duration-200"
-                  style={{ backgroundColor: color }}
-                  aria-label={`Select ${color} color`}
-                />
               ))}
             </div>
           </div>
@@ -97,7 +95,25 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <div className="space-y-1">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium truncate">{product.name}</h3>
+            <div className="flex flex-row gap-4">
+              <h3 className="text-sm font-medium truncate">{product.name}</h3>
+
+              {/* color options */}
+              <div className="flex justify-between gap-2">
+                {availableColors.map((color) => (
+                  <button
+                    key={color}
+                    onClick={(e) => handleColorClick(e, color)}
+                    className={`w-4 h-4 rounded-full border-2 border-gray-200 hover:border-gray-400 transition-all duration-200 ${
+                      selectedColor == color ? "border-black ring-1 ring-black ring-offset-1 shadow-md" : "border-gray-200 hover:border-gray-400"
+                    }`}
+                    style={{ backgroundColor: color }}
+                    aria-label={`Select ${color} color`}
+                  />
+                ))}
+              </div>
+            </div>
+
             <div className="flex items-center gap-2">
               {/* favorite button */}
               <button onClick={handleFavorite} className="p-1 hover:bg-gray-100 rounded-full transition-colors" aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}>
