@@ -1,28 +1,25 @@
+## Access this project online at https://zara-ecommerce-web-app.vercel.app/
+
+You can also see the presentation at https://drive.google.com/drive/folders/129YViucFne34VaqoWvDPSN5i2bJrdD3o?usp=drive_link
+
+
 ## how to run this project
+- clone down the project
+- run `npm i`
+- run `npm run dev`
 
-- `npm i`
-- `npm run dev`
-
-## TODO
-
-- 1. (done) update menu according to figma prototype and A5's "Proposed Changes" part (Move the “best sellers” feature closer to “trending items” in the main menu or provide a text link consistent with other categories)
-- 3. (done) add filtering/sorting button
-- 4. (done-partially) implement the search function
-- 5. (done) set "S" as current user size preference, move color option from the hover panel outside, make user pick a color before adding to card
-- 6. (done) in Product detail page, add alert for add-to-cart button (or a modal pop up on the right side)
-
-- 7. make a page to store favorited items
-- 8. display product's reviews and rating (checkout data/products.ts to see the data schema)
-- 9. add a rating/review form to each product page
-- 10. make an employee system to allow uploading new product or adjust existing product
+## Next steps todo:
+- 1. Upgrade the search function
+- 2. Implement Favorited items page
+- 3. display product's reviews and rating (checkout data/products.ts to see the data schema)
+- 4. add a rating/review form to each product page
+- 5. Build an employee system to allow uploading new product or adjust existing product
 
 ## Libraries used
-
 - Redux toolkit to manage components' global state
 - shadcn/ui library for prebuilt UI components
 
-## other notes
-
+## Other notes
 - @/app/(shop): group folder, not regular route (@/app/(shop)/cart will be accessed via http://localhost:3000/cart, not http://localhost:3000/shop/cart)
 
   - this helps organize routes without affecting the URL path.
